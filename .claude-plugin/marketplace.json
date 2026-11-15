@@ -10,7 +10,6 @@
       "name": "decision-analysis",
       "source": "./",
       "description": "Claude が人間に判断を仰ぐとき、課題・比較軸・Must/Want の根拠を備えた軽量の Decision Analysis で提示させる",
-      "version": "0.1.0",
       "author": {
         "name": "etoyama"
       },
@@ -18,7 +17,13 @@
       "repository": "https://github.com/etoyama/decision-analysis",
       "license": "MIT",
       "category": "development",
-      "keywords": ["decision-analysis", "adr", "kepner-tregoe", "must-want", "decision-making"]
+      "keywords": [
+        "decision-analysis",
+        "adr",
+        "kepner-tregoe",
+        "must-want",
+        "decision-making"
+      ]
     }
   ]
 }

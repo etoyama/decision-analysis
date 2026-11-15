@@ -16,10 +16,11 @@ Claude Code が人間に判断を仰ぐとき、課題・比較軸・Must/Want �
 | `hooks/` の SessionStart hook | 事前の対策。どんな判断で DA を使うかの発動条件を、毎回のセッションに入れる |
 | `skills/decision-analysis/SKILL.md` | 形式の正本。出し直しの手順と、ADR への対応も持つ |
 | `skills/decision-analysis/example.md` | この形式で書いた判断の見本 |
+| `evals/` | 発動の評価ケース（`claude plugin eval .` で実行） |
 
 事後の対策として、提示が足りなかったときは次のどれかで出し直させる。
 
-- `/decision-analysis:decision-analysis` を実行する
+- `/decision-analysis` を実行する（同じ名前のコマンドが他にあるときは `/decision-analysis:decision-analysis`）
 - 「DA で」「Decision Analysis で出し直して」と言う
 - 判断の理由を聞き返す（発動条件に入っているので、Claude が自分から出し直す）
 
@@ -33,10 +34,37 @@ Claude Code が人間に判断を仰ぐとき、課題・比較軸・Must/Want �
 
 ## 導入
 
+Claude Code の中で:
+
 ```text
 /plugin marketplace add etoyama/decision-analysis
 /plugin install decision-analysis@decision-analysis
 ```
+
+シェルから（スクリプトに書くとき）:
+
+```bash
+claude plugin marketplace add etoyama/decision-analysis
+claude plugin install decision-analysis@decision-analysis
+```
+
+SessionStart hook は次に開いたセッションから効く。
+
+更新は `claude plugin update decision-analysis@decision-analysis` のあとセッションを開き直す。
+バージョンは `.claude-plugin/plugin.json` の `version` だけで持つ。変更を配るときはここを上げる
+（上げないと、導入済みの環境はキャッシュを使い続ける）。
+
+## 開発
+
+```bash
+claude plugin validate .
+claude --plugin-dir . plugin details decision-analysis
+claude --plugin-dir .
+claude plugin eval . --no-publish
+```
+
+`--plugin-dir .` で開いたセッションでは、導入せずに手元のファイルがそのまま読まれる。
+`claude plugin eval` は Claude Code v2.1.269 以降で使える。結果は `evals/results/` に書かれる（git 管理外）。
 
 ## License
 
